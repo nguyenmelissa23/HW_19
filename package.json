@@ -1,0 +1,38 @@
+{
+  "name": "hw19react",
+  "version": "1.0.0",
+  "description": "",
+  "main": "public/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "script": "webpack -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nguyenmelissa23/HW_19.git"
+  },
+  "author": "melissa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nguyenmelissa23/HW_19/issues"
+  },
+  "homepage": "https://github.com/nguyenmelissa23/HW_19#readme",
+  "dependencies": {
+    "axios": "^0.16.1",
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "mongojs": "^2.4.0",
+    "mongoose": "^4.10.4",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
+  },
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2016": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "webpack": "^2.6.1"
+  }
+}
