@@ -45,6 +45,7 @@ class Main extends React.Component {
 			}
 		}.bind(this));
 		console.log("Main state:", this.state);
+		console.log("RESULTS:", this.state.results);
 	}
 
 	handleQuery(keyWord, startYear, endYear){	
@@ -55,6 +56,24 @@ class Main extends React.Component {
 			endYear: endYear
 		});
 		this.componentDidUpdate();
+	}
+
+	handleSaving(articleObj){
+		helpers.saveArticle(articleObj).then(function(saved){
+			console.log("SAVED",saved);
+			if (saved.data){
+				helpers.getSavedArticles().then(function(documents){
+					console.log("GETsavedarticle:", documents);
+					// if (data !== this.state.savedArticles){
+					// 	var savedArticleArray = this.state,savedArticles;
+
+					// 	this.setState({ savedArticles: data });
+					// }
+				}.bind(this));
+			}
+		}.bind(this));
+
+		console.log("After saving, state:", this.state);
 	}
 
 	render(){
@@ -72,7 +91,8 @@ class Main extends React.Component {
 						handleQuery={this.handleQuery.bind(this)}
 					/>
 					<Results
-						allArticle={this.state.results}
+						resultsArray={this.state.results}
+						savingArticle={this.handleSaving.bind(this)}
 					/>
 				</div>
 				

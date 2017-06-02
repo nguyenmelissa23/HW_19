@@ -4,6 +4,8 @@ var axios = require("axios");
 
 var nytAPI = "4326d53291984def8c35d475f1f75613"; 
 
+
+
 var helper = {
 	//run query to nyt to display the Search
 	runQuery: function(keyWord, startYear, endYear){
@@ -21,9 +23,21 @@ var helper = {
 				+ "&end_date=" + endYear + "0101";
 			console.log("queryURL", queryURL);
 			return axios.get(queryURL).then(function(response){
-				console.log("RESPONSE",response.data.response);
+				console.log("RESPONSE",response.data);
 				if (response.data.response){
-					return response.data.response;
+					var resultArray =[];
+					for (var i = 0; i < 5; i++){
+						var currentArticle = response.data.response.docs[i];
+						var newArticle = {
+							title: currentArticle.headline.main,
+							snippet: currentArticle.lead_paragraph,
+							link: currentArticle.web_url,
+							date: currentArticle.pub_date
+						};
+						resultArray.push(newArticle);
+					}
+					console.log(resultArray);
+					return resultArray;
 				}
 				return " ";
 			});
@@ -36,7 +50,12 @@ var helper = {
 	}, 
 
 	saveArticle: function(articleObj){
-		return axios.post("/api/saved", articleObj);
+		return axios.post("/api/saved", {
+			title: articleObj.title,
+			snippet: articleObj.snippet,
+			link: articleObj.link,
+			date: articleObj.date
+		});
 	}
 
 };

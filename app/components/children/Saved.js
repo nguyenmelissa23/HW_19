@@ -15,7 +15,7 @@ class Saved extends React.Component{
 		return (
 			<div className="container savedContainer">
 				<div className="article">
-					<p>This is Saved.js</p>
+					
 				</div>
 			</div>
 		);

@@ -9,15 +9,24 @@ var ArticleSchema = new Scheme({
 		minlength: 1
 	}, 
 
+	snippet:{
+		type: String, 
+		unique: true, 
+		required: [true, "No snippet found"], 
+		minlength: 1
+	},
+
 	link: {
 		type: String,
 		unique: true,
-		require: [true, "No title found"],
+		require: [true, "No link found"],
 		minlength: 1
 	},
 
 	date:{
-		type: Date
+		type: Date, 
+		required:[true,"No date found"], 
+		minlength: 1
 	}
 });
 

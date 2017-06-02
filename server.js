@@ -55,16 +55,15 @@ app.get("/", function(req, res){
 });
 
 app.get("/api/saved", function(req,res){
-	Article.find({}, function(articles){
+	Article.find({}, function(error,articles){
+		if (error) console.log(error);
 		res.json(articles);
 	});
 });
 
 app.post("/api/saved", function(req,res){
-	var newArticle = new Article({
-		title: req.body.title,
-		link: req.body.link
-	});
+	console.log("RES.BODY", req.body);
+	var newArticle = new Article(req.body);
 	newArticle.save(function(error, saved){
 		if (error) console.log(error);
 		res.json(saved);

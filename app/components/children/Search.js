@@ -30,7 +30,6 @@ class Search extends React.Component{
 	render() {
 		return (
 			<div className="container searchContainer">
-				<p>This is the Search.js</p>
 				<div className="queryContainer">
 					<h2>Search</h2>
 					<form onSubmit={this.handleSumbit.bind(this)} >
