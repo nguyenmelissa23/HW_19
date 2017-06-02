@@ -16,11 +16,11 @@ var ArticleSchema = new Scheme({
 		minlength: 1
 	},
 
-	date_saved:{
-		type: Date, 
-		default: Date.now
+	date:{
+		type: Date
 	}
 });
 
+var Article = mongoose.model("Article", ArticleSchema);
 
 module.exports = Article;

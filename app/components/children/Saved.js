@@ -13,7 +13,7 @@ class Saved extends React.Component{
 
 	render(){
 		return (
-			<div className="savedContainer">
+			<div className="container savedContainer">
 				<div className="article">
 					<p>This is Saved.js</p>
 				</div>

@@ -1,23 +1,62 @@
 var React = require("react");
 
-var Query = require("./grandchildren/Query");
-var Results = require("./grandchildren/Results");
+var Results = require("./Results");
 
 
 class Search extends React.Component{
-	// getInitialState: function () {
-	// },
+	constructor(){
+		super();
+		this.state = {
+			keyWord: "", 
+			startYear: "", 
+			endYear:""
+		}
+	}
 
-	// stateHandler: function () {
+	handleInput(event){
+		this.setState({
+			[event.target.name]: event.target.value
+		});	
+		console.log("handleInput:", this.state);
+	}
 
-	// },
+	handleSumbit(event){
+		event.preventDefault();
+		console.log("handle search submit");
+		this.props.handleQuery(this.state.keyWord, this.state.startYear, this.state.endYear);
+		console.log("Search state:", this.state);
+	}
 
 	render() {
 		return (
-			<div className="searchContainer">
+			<div className="container searchContainer">
 				<p>This is the Search.js</p>
-				<Query/> 
-				<Results/>
+				<div className="queryContainer">
+					<h2>Search</h2>
+					<form onSubmit={this.handleSumbit.bind(this)} >
+						<h3>Topic</h3>
+						<input type="text" 
+							value={this.state.keyWord}
+							onInput={this.handleInput.bind(this)}
+							name="keyWord"
+						/>
+						<h3>Start Year</h3>
+						<input type="text" 
+							value={this.state.startYear}
+							onInput={this.handleInput.bind(this)}
+							name="startYear"
+						/>
+				
+						<h3>End Year</h3>
+						<input type="text" 
+							value={this.state.endYear} 
+							onInput={this.handleInput.bind(this)}
+							name="endYear"
+						/>
+						<br/>
+						<input type="submit" value="Submit"/>
+					</form>
+				</div>
 			</div>	
 		);
 	}

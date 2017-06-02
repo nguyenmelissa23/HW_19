@@ -7,3 +7,10 @@ ReactDOM.render(
 	<Main/>,
 	document.getElementById("app")
 );
+
+// var routes = require("./config/routes");
+
+// ReactDOM.render(
+// 	routes,
+// 	document.getElementById("app")
+// );

@@ -3,10 +3,17 @@ var bodyParser = require("body-parser");
 var mongojs = require("mongojs");
 var mongoose = require("mongoose");
 var Promise = require("bluebird");
+var cors = require("cors");
 
 mongoose.Promise = Promise;
 
 var app = express();
+// app.use(cors());
+app.use(function (req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+	next();
+});
 
 var Article = require("./models/article");
 
@@ -15,6 +22,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: false
 }));
+
+
 
 var PORT = process.env.PORT || 3000;
 
@@ -34,27 +43,36 @@ db.once("open", function(){
 /**
  * ROUTING
  */
+
+// app.use(function (req, res, next) {
+// 	res.header("Access-Control-Allow-Origin", "*");
+// 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+// 	next();
+// });
+
 app.get("/", function(req, res){
 	res.sendFile(__dirname + "/public/index.html");
 });
 
 app.get("/api/saved", function(req,res){
-	Article.findAll({}, function(articles){
+	Article.find({}, function(articles){
 		res.json(articles);
 	});
 });
 
 app.post("/api/saved", function(req,res){
-	Article.create({
-		title: req.body.title, 
+	var newArticle = new Article({
+		title: req.body.title,
 		link: req.body.link
-	}, function(saved){
+	});
+	newArticle.save(function(error, saved){
+		if (error) console.log(error);
 		res.json(saved);
 	})
 });
 
 app.delete("/api/saved", function(req, res){
-	Article.delete({
+	Article.findOneAndRemove({
 		title: req.body.title,
 		link: req.body.link
 	}, function(deleted){
@@ -64,7 +82,7 @@ app.delete("/api/saved", function(req, res){
 
 
 app.listen(PORT, function(){
-	console.log("App listening on http://localhost:" + PORT);
+	console.log("App listening on https://localhost:" + PORT);
 });
 
 

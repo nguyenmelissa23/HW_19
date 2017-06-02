@@ -2,14 +2,17 @@ var React = require("react");
 
 var Search = require("./children/Search");
 var Saved = require("./children/Saved");
+var Results = require("./children/Results");
 
 var helpers = require("./utils/helpers")
 
 class Main extends React.Component {
 
-	getInitialState(){
+	constructor(){
+		super();
 		//Initial state when page loads:
-		return {
+		console.log("INIT STATE");
+		this.state = {
 			keyWord: "", 
 			startYear: "", 
 			endYear: "",
@@ -20,23 +23,38 @@ class Main extends React.Component {
 
 	//When page loads, get the saved article and display:
 	componentDidMount(){
+		console.log("Component Did Mount");
 		helpers.getSavedArticles().then(function(response){
 			console.log(response);
-			if (response !== this.state.savedArticles){
+			if (response && response !== this.state.savedArticles){
 				console.log("savedArticles:", response.data);
 				this.setState({savedArticles: response.data});
 			}
-		}).bind(this);
+		}.bind(this));
+		console.log("Main state:", this.state);
 	}
 
 	//if the components change - search keyword is entered:
 	componentDidUpdate(){
+		console.log("Component did update");
 		helpers.runQuery(this.state.keyWord, this.state.startYear, this.state.endYear).then(function(data){
-			if (data!== this.state.results){
+			console.log("DATA:", data);
+			if (data !== this.state.results){
 				console.log("Results:", data);
 				this.setState({results: data});
 			}
-		}).bind(this);
+		}.bind(this));
+		console.log("Main state:", this.state);
+	}
+
+	handleQuery(keyWord, startYear, endYear){	
+		console.log("Set state on submit");
+		this.setState({
+			keyWord: keyWord, 
+			startYear: startYear, 
+			endYear: endYear
+		});
+		this.componentDidUpdate();
 	}
 
 	render(){
@@ -51,8 +69,10 @@ class Main extends React.Component {
 
 				<div className="row">
 					<Search 
-						searchKeys= {this.state.keyWord, this.state.startYear, this.state.endYear} 
-						searchResults={this.state.results}
+						handleQuery={this.handleQuery.bind(this)}
+					/>
+					<Results
+						allArticle={this.state.results}
 					/>
 				</div>
 				
@@ -66,5 +86,11 @@ class Main extends React.Component {
 		);
 	}
 };
+
+// var styles = StyleSheet.create({
+// 	container: { 
+// 		maxWidth: 800,
+// 	}
+// })
 
 module.exports = Main;
