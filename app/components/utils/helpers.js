@@ -15,12 +15,13 @@ var helper = {
 		if (keyWord !== ""){
 			if (startYear === "") startYear = "2017";
 			if (endYear === "") endYear="2017";
+			keyWord = encodeURI(keyWord);
 			var queryURL = "https://api.nytimes.com/svc/search/v2/articlesearch.json"
 				+ "?api-key=" + nytAPI
 				+ "&page=0&sort=newest"
 				+ "&q=" + keyWord 
 				+ "&begin_date=" + startYear + "0101"
-				+ "&end_date=" + endYear + "0101";
+				+ "&end_date=" + endYear + "1231";
 			console.log("queryURL", queryURL);
 			return axios.get(queryURL).then(function(response){
 				console.log("RESPONSE",response.data);
@@ -56,6 +57,13 @@ var helper = {
 			link: articleObj.link,
 			date: articleObj.date
 		});
+	}, 
+
+	deleteArticle: function(articleObj){
+		console.log("articleObj._id", articleObj._id);
+		return axios.delete("/api/saved", {
+			_id: articleObj._id
+		}); 
 	}
 
 };

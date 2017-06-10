@@ -71,9 +71,9 @@ app.post("/api/saved", function(req,res){
 });
 
 app.delete("/api/saved", function(req, res){
-	Article.findOneAndRemove({
-		title: req.body.title,
-		link: req.body.link
+	console.log("req.body._id",req.body._id);
+	Article.remove({
+		_id: req.body._id
 	}, function(deleted){
 		res.json(deleted);
 	})
@@ -81,7 +81,7 @@ app.delete("/api/saved", function(req, res){
 
 
 app.listen(PORT, function(){
-	console.log("App listening on https://localhost:" + PORT);
+	console.log("App listening on http://localhost:" + PORT);
 });
 
 

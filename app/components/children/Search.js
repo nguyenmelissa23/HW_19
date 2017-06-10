@@ -17,14 +17,11 @@ class Search extends React.Component{
 		this.setState({
 			[event.target.name]: event.target.value
 		});	
-		console.log("handleInput:", this.state);
 	}
 
 	handleSumbit(event){
 		event.preventDefault();
-		console.log("handle search submit");
 		this.props.handleQuery(this.state.keyWord, this.state.startYear, this.state.endYear);
-		console.log("Search state:", this.state);
 	}
 
 	render() {

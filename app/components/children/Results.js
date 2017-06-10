@@ -10,15 +10,9 @@ class Results extends React.Component{
 
 	handleSaving(event){
 		event.preventDefault();
-		console.log("THIS ARTICLE, Saving:", (event.target).getAttribute("data-article"));
 		var newSave = JSON.parse((event.target).getAttribute("data-article"));
 		console.log("Saving OBJECT:", newSave);
-
-		// console.log("SAVING:");
 		this.props.savingArticle(newSave);
-		// this.setState({
-		// 	results: 0
-		// });
 	}
 
 	render(){

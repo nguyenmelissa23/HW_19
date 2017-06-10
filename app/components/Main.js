@@ -25,9 +25,7 @@ class Main extends React.Component {
 	componentDidMount(){
 		console.log("Component Did Mount");
 		helpers.getSavedArticles().then(function(response){
-			console.log(response);
 			if (response && response !== this.state.savedArticles){
-				console.log("savedArticles:", response.data);
 				this.setState({savedArticles: response.data});
 			}
 		}.bind(this));
@@ -38,9 +36,7 @@ class Main extends React.Component {
 	componentDidUpdate(){
 		console.log("Component did update");
 		helpers.runQuery(this.state.keyWord, this.state.startYear, this.state.endYear).then(function(data){
-			console.log("DATA:", data);
 			if (data !== this.state.results){
-				console.log("Results:", data);
 				this.setState({results: data});
 			}
 		}.bind(this));
@@ -49,31 +45,38 @@ class Main extends React.Component {
 	}
 
 	handleQuery(keyWord, startYear, endYear){	
-		console.log("Set state on submit");
 		this.setState({
 			keyWord: keyWord, 
 			startYear: startYear, 
 			endYear: endYear
 		});
-		this.componentDidUpdate();
 	}
 
 	handleSaving(articleObj){
+		console.log("handleSaving");
 		helpers.saveArticle(articleObj).then(function(saved){
 			console.log("SAVED",saved);
 			if (saved.data){
 				helpers.getSavedArticles().then(function(documents){
 					console.log("GETsavedarticle:", documents);
-					// if (data !== this.state.savedArticles){
-					// 	var savedArticleArray = this.state,savedArticles;
-
-					// 	this.setState({ savedArticles: data });
-					// }
+					if (documents !== this.state.savedArticles) {
+						console.log("Results:", documents);
+						this.setState({ 
+							savedArticle: documents 
+						});
+						console.log("After saving, state:", this.state);
+					}
 				}.bind(this));
 			}
 		}.bind(this));
+		
+	}
 
-		console.log("After saving, state:", this.state);
+
+	handleDelete(articleObj){
+		helpers.deleteArticle(articleObj).then(function(deleted){
+			console.log("DELETED:", deleted);
+		});
 	}
 
 	render(){
@@ -83,7 +86,7 @@ class Main extends React.Component {
 					<div className="jumbotron">	
 						<h1>The NEW YORK Times</h1>
 						<p>Get your latest news and save your favorites</p>
-					</div>
+					</div>	
 				</div>
 
 				<div className="row">
@@ -99,6 +102,7 @@ class Main extends React.Component {
 				<div className="row">
 					<Saved 
 						savedArticles = {this.state.savedArticles}
+						handleDelete = {this.handleDelete}
 					/>
 				</div>
 
